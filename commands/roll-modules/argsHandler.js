@@ -1,18 +1,21 @@
 const PATTERN = require('./pattern');
 const EXPR = PATTERN.expr;
 
-module.exports = function () {
-    this.match = function (str) {
+class ArgsHandler {
+    // matches input string to preset regex patterns
+    match(str) {
         let expr = EXPR.find(EXPR => EXPR.pattern.test(str));
-        if (expr) { 
+        if (expr) {
             return expr;
         } else {
             throw "No Match Error";
         }
     }
-    
-    this.split = function (str, regex) {
+    // splits input string based on regex pattern
+    split(str, regex) {
         return str.split(regex);
     }
-    
 }
+
+// exporting the ArgsHandler
+module.exports = ArgsHandler;

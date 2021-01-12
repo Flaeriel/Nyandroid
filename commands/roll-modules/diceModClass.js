@@ -1,32 +1,35 @@
-module.exports = function (splits) {
-    this.count = new Number(splits[1]);
-    this.size = new Number(splits[2]);
-    this.operator = splits[3];
-    this.modifier = new Number(splits[4]);
-    
-    this.rand = function() {
-        if (this.size > 0) {
-            return Math.floor(Math.random() * this.size + 1);
-        } else { 
-            throw "Size <= 0 Error!"; 
-        }
+/*
+    A dice roller that allows for an added modifier
+*/
+const DiceClass = require("./DiceClass");
+
+class DiceModClass extends DiceClass {
+    // Setting up the base values
+    // operator = either + or -
+    // modifier = a value that will be added or subtracted from the dice roll
+    constructor(count, size, operator, modifier) {
+        super(count, size);
+        this.operator = operator;
+        this.modifier = new Number(modifier);
     }
-    this.modify = function (val) {
+    // This will modify a value
+    modify(val) {
         if (this.operator === '+') {
             return val + this.modifier;
         } else if (this.operator === '-') {
             return val - this.modifier;
         } else if (!this.operator) {
             return val;
-        } else { 
-            throw "Modification Error!"; 
+        } else {
+            throw "Modification Error!";
         }
     }
-    this.roll = function () {
+    // Coundn't figure out yet how to modify without having duplicate code
+    roll() {
         if (this.count > 0 && this.count <= 50) {
             let dice = [];
             let sum = 0;
-            for (i = 0; i < this.count; i++) {
+            for (let i = 0; i < this.count; i++) {
                 let rnd = this.rand();
                 sum += rnd;
                 dice.push(rnd);
@@ -35,11 +38,11 @@ module.exports = function (splits) {
             return { dice, sum };
         } else if (this.count > 50) {
             throw "Too Many Dice Error!";
-        } else {  
-            throw "Count <= 0 Error!"; 
-        } 
+        } else {
+            throw "Count <= 0 Error!";
+        }
     }
-    this.check = function () {
-        console.log(this);
-    }
-};
+}
+
+// Exporting the DiceModClass
+module.exports = DiceModClass;
