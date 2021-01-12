@@ -20,23 +20,17 @@ module.exports = {
         if (call.name === 'calc') {
             throw "Calc Not Implemented Error!";
 
-        } else if (call.name === 'dice_mod') {
-            let dice = new DiceModClass(splits[1], splits[2], splits[3], splits[4]);
-            console.log(dice);
+        } else if (call.name === 'dice' || call.name === 'dice_mod' ) {
+            let dice;
+            if (call.name === 'dice_mod') {
+                dice = new DiceModClass(splits[1], splits[2], splits[3], splits[4]);
+            } else if (call.name === 'dice') {
+                dice = new DiceClass(splits[1], splits[2]);
+            }
             let result = dice.roll();
-            console.log(result);
+            console.log(dice, result);
             return response.dice_result(message, result, dice);
-            //return message.channel.send(`Rolls: **${result.dice}** ${dice.operator} ${dice.modifier} = **${result.sum}**`);
-
-        } else if (call.name === 'dice') {
-            let dice = new DiceClass(splits[1], splits[2]);
-            console.log(dice);
-            let result = dice.roll();
-            console.log(result);
-            return response.dice_result(message, result, dice);
-            //return message.channel.send(`Rolls: **${result.dice}** = **${result.sum}**`);
         }
-
     },
 
 };
