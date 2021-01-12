@@ -4,6 +4,7 @@ class BaseNyandroidError extends Error {
     }
 }
 
+class NotImplementedError extends BaseNyandroidError { }
 class PatternMatchError extends BaseNyandroidError { }
 class DiceModificationError extends BaseNyandroidError { }
 class DiceSizeError extends BaseNyandroidError { }
