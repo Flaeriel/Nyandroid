@@ -11,17 +11,16 @@ function ignore(message, args) {
     return message.channel.send(`Meow will be ignoring everything past ${args[0]}, nya!`);
 };
 
-function dice_result(message, result, dice) {
+function dice_result(message, total, dice) {
     if(dice.modifier === false) {
         if(dice.count > 1) {
-            return message.channel.send(`Rolls: **${result.dice}** = **${result.sum}**`);
+            return message.channel.send(`Rolls: **${dice.rolls}** = **${total}**`);
         } else {
-            return message.channel.send(`Rolls: **${result.dice}**`);
+            return message.channel.send(`Rolls: **${dice.rolls}**`);
         }
     } else {
-        return message.channel.send(`Rolls: **${result.dice}** ${dice.operator} ${dice.modifier} = **${result.sum}**`);
+        return message.channel.send(`Rolls: **${dice.rolls}** ${dice.operator} ${dice.modifier} = **${total}**`);
     }
 }
-
 
 module.exports = { hello, pat, sleep, ignore, dice_result };

@@ -10,6 +10,7 @@ class DiceClass {
         this.count = new Number(count);
         this.size = new Number(size);
         this.modifier = false;
+        this.rolls = [];
     }
     // A randomizer function that outputs a positive integer value between 1 and (size)
     rand() {
@@ -24,19 +25,28 @@ class DiceClass {
     // + Handling issues with either too little or too many dice being rolled at once
     roll() {
         if (this.count > 0 && this.count <= 50) {
-            let dice = [];
-            let sum = 0;
+            //let dice = [];
+            //let sum = 0;
             for (let i = 0; i < this.count; i++) {
                 let rnd = this.rand();
-                sum += rnd;
-                dice.push(rnd);
+                //sum += rnd;
+                this.rolls.push(rnd);
             }
-            return { dice, sum };
+            //return { dice, sum };
+            return this.rolls;
         } else if (this.count > 50) {
             throw "Too Many Dice Error!";
         } else {
             throw "Count <= 0 Error!";
         }
+    }
+    // adds rolled dice together
+    add_up() {
+        let total = 0;
+        for (let die of this.rolls) {
+            total += die;
+        }
+        return total;
     }
 
 }

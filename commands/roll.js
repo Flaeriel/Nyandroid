@@ -11,7 +11,7 @@ module.exports = {
     execute (message, args) {
         let call = args_handler.diceMatch(args[0]);
         let splits = args_handler.diceSplit(args[0], call.pattern);
-        console.log(call);
+        //console.log(call);
 
         if (args.length > 1) {
             response.ignore(message, args);
@@ -27,9 +27,10 @@ module.exports = {
             } else if (call.name === 'dice') {
                 dice = new DiceClass(splits[1], splits[2]);
             }
-            let result = dice.roll();
-            console.log(dice, result);
-            return response.dice_result(message, result, dice);
+            let total = dice.add_up(dice.roll());
+            // logging the dice object
+            console.log(dice);
+            return response.dice_result(message, total, dice);
         }
     },
 

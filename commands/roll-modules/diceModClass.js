@@ -24,23 +24,13 @@ class DiceModClass extends DiceClass {
             throw "Modification Error!";
         }
     }
-    // Coundn't figure out yet how to modify without having duplicate code
-    roll() {
-        if (this.count > 0 && this.count <= 50) {
-            let dice = [];
-            let sum = 0;
-            for (let i = 0; i < this.count; i++) {
-                let rnd = this.rand();
-                sum += rnd;
-                dice.push(rnd);
-            }
-            sum = this.modify(sum);
-            return { dice, sum };
-        } else if (this.count > 50) {
-            throw "Too Many Dice Error!";
-        } else {
-            throw "Count <= 0 Error!";
+    // adds rolled dice together and applies the modifier
+    add_up() {
+        let total = 0;
+        for (let die of this.rolls) {
+            total += die;
         }
+        return this.modify(total);
     }
 }
 
