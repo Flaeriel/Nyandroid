@@ -1,14 +1,17 @@
-class PatternMatchError extends Error {
-    message = "No Matching Dice Roll Pattern!";
-}
-class DiceModificationError extends Error {
-    message = "Invalid Dice Modifier!";
-}
-class DiceSizeError extends Error {
-    message = "Invalid Dice Size!";
-}
-class DiceCountError extends Error {
-    message = "Invalid Dice Count";
+class BaseNyandroidError extends Error {
+    get name() {
+        return this.constructor.name;
+    }
 }
 
-module.exports = { PatternMatchError, DiceModificationError, DiceSizeError, DiceCountError };
+class PatternMatchError extends BaseNyandroidError { }
+class DiceModificationError extends BaseNyandroidError { }
+class DiceSizeError extends BaseNyandroidError { }
+class DiceCountError extends BaseNyandroidError { }
+
+module.exports = {
+    PatternMatchError,
+    DiceModificationError,
+    DiceSizeError,
+    DiceCountError
+};
