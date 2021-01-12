@@ -15,4 +15,7 @@ function diceSplit(str, regex) {
 }
 
 // exporting the ArgsHandler
-module.exports = { diceMatch, diceSplit };
+module.exports = {
+    diceMatch,
+    diceSplit
+};

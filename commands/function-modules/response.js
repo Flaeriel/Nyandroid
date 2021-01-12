@@ -23,4 +23,10 @@ function dice_result(message, total, dice) {
     }
 }
 
-module.exports = { hello, pat, sleep, ignore, dice_result };
+module.exports = {
+    hello,
+    pat,
+    sleep,
+    ignore,
+    dice_result
+};
