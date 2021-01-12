@@ -1,7 +1,10 @@
-const DiceClass = require('./roll-modules/diceClass');
-const DiceModClass = require('./roll-modules/diceModClass');
-const pattern_handler = require('./roll-modules/patternHandler');
-const response = require('./function-modules/response.js');
+const { nyanDice, nyanMessage, nyanError } = require('../util')
+const DiceClass = nyanDice.DiceClass
+const DiceModClass = nyanDice.DiceModClass
+const diceMatch = nyanDice.diceMatch
+const diceSplit = nyanDice.diceSplit
+const diceResult = nyanMessage.diceResult
+
 
 module.exports = {
     name: 'roll',
@@ -9,22 +12,21 @@ module.exports = {
     description: 'rolling dice',
     args: true,
     execute (message, args) {
-        let collect = [];
+        let collect = []
         for (let i = 0; i < args.length; i++) {
-            let call = pattern_handler.diceMatch(args[i]);
-            let splits = pattern_handler.diceSplit(args[i], call.pattern);
-
+            let call = diceMatch(args[i])
+            let splits = diceSplit(args[i], call.pattern)
             if (call.name === 'dice' || call.name === 'dice_mod' ) {
-                let dice;
+                let dice
                 if (call.name === 'dice_mod') {
-                    dice = new DiceModClass(splits[1], splits[2], splits[3], splits[4]);
+                    dice = new DiceModClass(splits[1], splits[2], splits[3], splits[4])
                 } else if (call.name === 'dice') {
-                    dice = new DiceClass(splits[1], splits[2]);
+                    dice = new DiceClass(splits[1], splits[2])
                 }
-                let total = dice.add_up(dice.roll());
+                let total = dice.add_up(dice.roll())
                 // logging the dice object
-                console.log(dice);
-                collect.push(response.dice_result(message, total, dice));
+                console.log(dice)
+                collect.push(diceResult(message, total, dice))
             }
         }
         return collect;
