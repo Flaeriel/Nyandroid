@@ -2,6 +2,7 @@
     A dice roller that allows for an added modifier
 */
 const DiceClass = require("./DiceClass");
+const { DiceModificationError } = require('../function-modules/errorHandler');
 
 class DiceModClass extends DiceClass {
     // Setting up the base values
@@ -21,7 +22,7 @@ class DiceModClass extends DiceClass {
         } else if (!this.operator) {
             return val;
         } else {
-            throw "Modification Error!";
+            throw new DiceModificationError();
         }
     }
     // adds rolled dice together and applies the modifier

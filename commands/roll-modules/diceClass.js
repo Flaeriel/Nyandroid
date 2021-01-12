@@ -2,6 +2,8 @@
     The most basic dice rolling functionality of the Nyandroid
     It handles simple dice rolls like 1d6, 1d20 or even non-existing dice like 1d13
 */
+const { DiceSizeError, DiceCountError } = require('../function-modules/errorHandler');
+
 class DiceClass {
     // Setting up the base values
     // count = the amount of dice
@@ -17,7 +19,8 @@ class DiceClass {
         if (this.size > 0) {
             return Math.floor(Math.random() * this.size + 1);
         } else {
-            throw "Size <= 0 Error!";
+            throw new DiceSizeError();
+            //throw "Size <= 0 Error!";
         }
     }
     // This is were dice are rolled
@@ -34,10 +37,8 @@ class DiceClass {
             }
             //return { dice, sum };
             return this.rolls;
-        } else if (this.count > 50) {
-            throw "Too Many Dice Error!";
-        } else {
-            throw "Count <= 0 Error!";
+        } else if (this.count > 50 || this.count <= 0) {
+            throw new DiceCountError();
         }
     }
     // adds rolled dice together

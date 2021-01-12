@@ -1,3 +1,4 @@
+const { PatternMatchError } = require('../function-modules/errorHandler');
 const PATTERN = require('./pattern');
 const EXPR = PATTERN.expr;
 
@@ -6,7 +7,7 @@ function diceMatch(str) {
     if (expr) {
         return expr;
     } else {
-        throw "No Match Error";
+        throw new PatternMatchError();
     }
 }
 function diceSplit(str, regex) {
