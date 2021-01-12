@@ -1,10 +1,10 @@
+const response = require('./function-modules/response.js');
+
 module.exports = {
     name: 'pat',
     description: 'pat the nyandroid!',
     execute (message, args) {
-        message.reply('purr');
-        
-        console.log('nyandroid was pat and is purring now!');
+        console.log('The Nyandroid was pat and is purring now!');
+        return response.pat(message);
     },
-    
 };

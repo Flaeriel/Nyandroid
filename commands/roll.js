@@ -1,6 +1,7 @@
 const DiceClass = require('./roll-modules/diceClass');
 const DiceModClass = require('./roll-modules/diceModClass');
-const ArgsHandler = require('./roll-modules/argsHandler');
+const args_handler = require('./roll-modules/argsHandler');
+const response = require('./function-modules/response.js');
 
 module.exports = {
     name: 'roll',
@@ -8,13 +9,12 @@ module.exports = {
     description: 'rolling dice',
     args: true,
     execute (message, args) {
-        let handler = new ArgsHandler();
-        let call = handler.match(args[0]);
-        let splits = handler.split(args[0], call.pattern);
+        let call = args_handler.diceMatch(args[0]);
+        let splits = args_handler.diceSplit(args[0], call.pattern);
         console.log(call);
 
         if (args.length > 1) {
-            message.channel.send(`I will be ignoring everything past ${args[0]}, nya!`);
+            response.ignore(message, args);
         }
 
         if (call.name === 'calc') {

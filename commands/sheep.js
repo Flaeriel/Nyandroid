@@ -1,11 +1,12 @@
+const response = require('./function-modules/response.js');
+
 module.exports = {
     name: 'sheep',
     aliases: ['sleep'],
     description: 'wish good night',
     execute (message, args) {
-        message.reply(':sheep:');
-        
-        console.log('fluffy sheep');
+        console.log('The Nyandroid is nyawning!');
+        return response.sleep(message);
     },
-    
+
 };
