@@ -34,7 +34,7 @@ client.on('error', console.error);
 // when the client is ready, run this code
 // this even will only trigger one time after logging in
 client.once('ready', () => {
-    client.user.setActivity('Prey', {type:'WATCHING'});
+    client.user.setActivity('Birbs', {type:'WATCHING'});
     console.log(`${client.user.tag} is online!`);
 });
 
