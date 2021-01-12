@@ -25,14 +25,16 @@ module.exports = {
             console.log(dice);
             let result = dice.roll();
             console.log(result);
-            return message.channel.send(`Rolls: **${result.dice}** ${dice.operator} ${dice.modifier} = **${result.sum}**`).catch(console.error);
+            return response.dice_result(message, result, dice);
+            //return message.channel.send(`Rolls: **${result.dice}** ${dice.operator} ${dice.modifier} = **${result.sum}**`);
 
         } else if (call.name === 'dice') {
             let dice = new DiceClass(splits[1], splits[2]);
             console.log(dice);
             let result = dice.roll();
             console.log(result);
-            return message.channel.send(`Rolls: **${result.dice}** = **${result.sum}**`).catch(console.error);
+            return response.dice_result(message, result, dice);
+            //return message.channel.send(`Rolls: **${result.dice}** = **${result.sum}**`);
         }
 
     },

@@ -9,6 +9,7 @@ class DiceClass {
     constructor(count, size) {
         this.count = new Number(count);
         this.size = new Number(size);
+        this.modifier = false;
     }
     // A randomizer function that outputs a positive integer value between 1 and (size)
     rand() {
