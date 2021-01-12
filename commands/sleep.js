@@ -1,8 +1,8 @@
 const response = require('./function-modules/response.js');
 
 module.exports = {
-    name: 'sheep',
-    aliases: ['sleep'],
+    name: 'sleep',
+    aliases: ['night'],
     description: 'wish good night',
     execute (message, args) {
         console.log('The Nyandroid is nyawning!');
