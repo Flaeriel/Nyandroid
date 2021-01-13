@@ -14,9 +14,26 @@ const diceResult = (message, item, total, dice) => {
     return message.channel.send(nyanEmbed)
 }
 
+const errMessage = (err) => {
+    // no break needed because of return
+    switch(err) {
+        case 'PatternMatchError':
+            return "couldn't find a matching pattern"
+        case 'DiceModificationError':
+            return "this is not a valid dice modifier"
+        case 'DiceSizeError':
+            return "dice like this do not exist"
+        case 'DiceCountError':
+            return "I'm not going to roll that many dice"
+        default:
+            return "Something went wrong"
+    }
+}
+
 module.exports = {
     hello,
     pat,
     sleep,
-    diceResult
+    diceResult,
+    errMessage
 }

@@ -10,8 +10,9 @@ const Discord = require('discord.js')
 const { prefix, token } = require('./config.json')
 
 // setup a logger
-const { nyanLogger } = require('./util')
+const { nyanLogger, nyanMessage } = require('./util')
 const logger = nyanLogger.logger
+const errMessage = nyanMessage.errMessage
 
 // create a new Discord client
 const client = new Discord.Client()
@@ -53,11 +54,13 @@ client.on('message', message => {
     // dynamically executing commands
     // exit if there isn't a command with that name
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
-    if (!command)
+    if (!command) {
+        logger.log('warn', `Unknown Command: ${message}`)
         return message.reply(`Idk what you mean, nya!`)
-
+    }
     // check for arguments, whenever args is set to true in a command file
     if (command.args && !args.length) {
+        logger.log('warn', `No Arguments for: ${message}`)
         return message.reply(`You didn't provide any arguments, nya!`)
     }
     // if there is, get the command and call its execute method while passing message and args variables
@@ -65,8 +68,8 @@ client.on('message', message => {
         logger.log('info', `${message.author.username}: ${message.content}`)
         command.execute(message, args)
     } catch (error) {
-        logger.log('error', error)
-        message.reply(`${error.message}, nya!`)
+        logger.log('error', error.stack)
+        message.reply(`${errMessage(error.name)}, nya!`)
     }
 
 });
