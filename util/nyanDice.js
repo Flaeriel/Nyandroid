@@ -14,7 +14,7 @@ let diceMatch = str => {
     if (expr) {
         return expr;
     } else {
-        throw new PatternMatchError();
+        throw new PatternMatchError
     }
 }
 // DICE SPLIT
@@ -34,7 +34,7 @@ class DiceClass {
         if (this.size > 0) {
             return Math.floor(Math.random() * this.size + 1);
         } else {
-            throw new DiceSizeError();
+            throw new DiceSizeError
         }
     }
     roll() {
@@ -71,7 +71,7 @@ class DiceModClass extends DiceClass {
         } else if (!this.operator) {
             return val;
         } else {
-            throw new DiceModificationError();
+            throw new DiceModificationError
         }
     }
     add_up() {

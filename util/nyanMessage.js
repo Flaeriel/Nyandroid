@@ -1,17 +1,17 @@
+const Discord = require('discord.js')
+
 const hello = message => message.channel.send(`Hello ${message.author}, nya!`)
 const pat = message => message.channel.send(`Purr!`)
 const sleep = message => message.channel.send(`Sleep well ${message.author}, nyawwn...`)
 
-const diceResult = (message, total, dice) => {
-    if (dice.modifier === false) {
-        if (dice.count > 1) {
-            return message.channel.send(`Rolls: **${dice.rolls}** = **${total}**`)
-        } else {
-            return message.channel.send(`Rolls: **${dice.rolls}**`)
-        }
-    } else {
-        return message.channel.send(`Rolls: **${dice.rolls}** ${dice.operator} ${dice.modifier} = **${total}**`)
-    }
+const diceResult = (message, item, total, dice) => {
+    const nyanEmbed = new Discord.MessageEmbed()
+        .setColor('#FFBE26')
+        .setTitle(`ROLLS ${item}`)
+        .setDescription(`**:game_die:  ${dice.rolls}**`)
+    if (dice.modifier !== false) { nyanEmbed.addField(`Modifier`, `${dice.operator}${dice.modifier}`) }
+    if (dice.count > 1 || dice.modifier !== false) { nyanEmbed.addField(`Total`, total) }
+    return message.channel.send(nyanEmbed)
 }
 
 module.exports = {
