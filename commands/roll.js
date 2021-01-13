@@ -1,9 +1,10 @@
-const { nyanDice, nyanMessage } = require('../util')
+const { nyanDice, nyanMessage, nyanLogger } = require('../util')
 const DiceClass = nyanDice.DiceClass
 const DiceModClass = nyanDice.DiceModClass
 const diceMatch = nyanDice.diceMatch
 const diceSplit = nyanDice.diceSplit
 const diceResult = nyanMessage.diceResult
+const logger = nyanLogger.logger
 
 let diceRoll = (message, args) => {
     let collect = []
@@ -14,7 +15,7 @@ let diceRoll = (message, args) => {
         if (call.name === 'dice_mod') dice = new DiceModClass(splits[1], splits[2], splits[3], splits[4])
         else if (call.name === 'dice') dice = new DiceClass(splits[1], splits[2])
         total = dice.add_up(dice.roll())
-        console.log(dice)
+        logger.log('info', `${item}: [${dice.rolls}] -> ${total}`)
         collect.push(diceResult(message, item, total, dice))
     })
     return collect

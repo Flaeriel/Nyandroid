@@ -1,11 +1,12 @@
-const { nyanMessage } = require('../util')
+const { nyanMessage, nyanLogger } = require('../util')
+const logger = nyanLogger.logger
 
 module.exports = {
     name: 'sleep',
     aliases: ['night'],
     description: 'wish good night',
     execute (message, args) {
-        console.log('The Nyandroid is nyawning!')
+        logger.log('info', 'The Nyandroid is nyawning!')
         return nyanMessage.sleep(message)
     },
 
