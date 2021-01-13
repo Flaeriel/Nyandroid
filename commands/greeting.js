@@ -7,7 +7,7 @@ module.exports = {
     description: 'greets back!',
     execute (message, args) {
         logger.log('info', `The Nyandroid greets ${message.author.username}!`)
-        return nyanMessage.hello(message)
+        return nyanMessage.respond(message, 'hello')
     },
 
 };

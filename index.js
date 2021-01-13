@@ -56,12 +56,12 @@ client.on('message', message => {
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName))
     if (!command) {
         logger.log('warn', `Unknown Command: ${message}`)
-        return message.reply(`${errMessage('UnknownCommand')}, nya!`)
+        return message.reply(errMessage('UnknownCommand'))
     }
     // check for arguments, whenever args is set to true in a command file
     if (command.args && !args.length) {
         logger.log('warn', `No Arguments for: ${message}`)
-        return message.reply(`${errMessage('NoArguments')}, nya!`)
+        return message.reply(errMessage('NoArguments'))
     }
     // if there is, get the command and call its execute method while passing message and args variables
     try {
@@ -69,7 +69,7 @@ client.on('message', message => {
         command.execute(message, args)
     } catch (error) {
         logger.log('error', error.stack)
-        message.reply(`${errMessage(error.name)}, nya!`)
+        message.reply(errMessage(error.name))
     }
 
 });

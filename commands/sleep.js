@@ -7,7 +7,7 @@ module.exports = {
     description: 'wish good night',
     execute (message, args) {
         logger.log('info', 'The Nyandroid is nyawning!')
-        return nyanMessage.sleep(message)
+        return nyanMessage.respond(message, 'sleep')
     },
 
 };

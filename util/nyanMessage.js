@@ -1,10 +1,17 @@
 const Discord = require('discord.js')
 
-const NYA = "nya!"
+const NYA = ", nya!"
 
-const hello = message => message.channel.send(`Hello ${message.author}, nya!`)
-const pat = message => message.channel.send(`Purr!`)
-const sleep = message => message.channel.send(`Sleep well ${message.author}, nyawwn...`)
+const respond = (message, type) => {
+    switch (type) {
+        case 'hello':
+            message.channel.send(`Hello ${message.author}`+NYA); break
+        case 'purr':
+            message.channel.send(`Purr!`); break
+        case 'sleep':
+            message.channel.send(`Sleep well ${message.author}, nyawwn...`); break
+    }
+}
 
 const diceResult = (message, item, total, dice) => {
     const nyanEmbed = new Discord.MessageEmbed()
@@ -20,26 +27,24 @@ const errMessage = (err) => {
     // no break needed because of return
     switch(err) {
         case 'UnknownCommand':
-            return "Idk what you mean"
+            return "Idk what you mean"+NYA
         case 'NoArguments':
-            return "You didn't provide any arguments"
+            return "You didn't provide any arguments"+NYA
         case 'PatternMatchError':
-            return "couldn't find a matching pattern"
+            return "couldn't find a matching pattern"+NYA
         case 'DiceModificationError':
-            return "this is not a valid dice modifier"
+            return "this is not a valid dice modifier"+NYA
         case 'DiceSizeError':
-            return "dice like this do not exist"
+            return "dice like this do not exist"+NYA
         case 'DiceCountError':
-            return "I'm not going to roll that many dice"
+            return "I'm not going to roll that many dice"+NYA
         default:
-            return "Something went wrong"
+            return "Something went wrong"+NYA
     }
 }
 
 module.exports = {
-    hello,
-    pat,
-    sleep,
+    respond,
     diceResult,
     errMessage
 }
