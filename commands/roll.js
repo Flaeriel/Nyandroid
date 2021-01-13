@@ -11,13 +11,8 @@ let diceRoll = (message, args) => {
         let call, splits, dice, total
         call = diceMatch(item)
         splits = diceSplit(item, call.pattern)
-        switch (call.name) {
-            case 'dice_mod':
-                dice = new DiceModClass(splits[1], splits[2], splits[3], splits[4])
-                break
-            default: //'dice'
-                dice = new DiceClass(splits[1], splits[2])
-        }
+        if (call.name === 'dice_mod') dice = new DiceModClass(splits[1], splits[2], splits[3], splits[4])
+        else if (call.name === 'dice') dice = new DiceClass(splits[1], splits[2])
         total = dice.add_up(dice.roll())
         console.log(dice)
         collect.push(diceResult(message, item, total, dice))
