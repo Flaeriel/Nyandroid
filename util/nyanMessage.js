@@ -1,5 +1,7 @@
 const Discord = require('discord.js')
 
+const NYA = "nya!"
+
 const hello = message => message.channel.send(`Hello ${message.author}, nya!`)
 const pat = message => message.channel.send(`Purr!`)
 const sleep = message => message.channel.send(`Sleep well ${message.author}, nyawwn...`)
@@ -17,6 +19,10 @@ const diceResult = (message, item, total, dice) => {
 const errMessage = (err) => {
     // no break needed because of return
     switch(err) {
+        case 'UnknownCommand':
+            return "Idk what you mean"
+        case 'NoArguments':
+            return "You didn't provide any arguments"
         case 'PatternMatchError':
             return "couldn't find a matching pattern"
         case 'DiceModificationError':
