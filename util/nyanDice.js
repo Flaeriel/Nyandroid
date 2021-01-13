@@ -11,11 +11,8 @@ const EXPR = dicePattern.expr
 // DICE MATCH
 let diceMatch = str => {
     let expr = EXPR.find(EXPR => EXPR.pattern.test(str));
-    if (expr) {
-        return expr;
-    } else {
-        throw new PatternMatchError
-    }
+    if (expr) return expr;
+    else throw new PatternMatchError
 }
 // DICE SPLIT
 let diceSplit = (str, regex) => str.split(regex)
@@ -31,11 +28,8 @@ class DiceClass {
         this.rolls = []
     }
     rand() {
-        if (this.size > 0) {
-            return Math.floor(Math.random() * this.size + 1);
-        } else {
-            throw new DiceSizeError
-        }
+        if (this.size > 0) return Math.floor(Math.random() * this.size + 1)
+        else throw new DiceSizeError
     }
     roll() {
         if (this.count > 0 && this.count <= 50) {
@@ -64,14 +58,10 @@ class DiceModClass extends DiceClass {
         this.modifier = new Number(modifier)
     }
     modify(val) {
-        if (this.operator === '+') {
-            return val + this.modifier;
-        } else if (this.operator === '-') {
-            return val - this.modifier;
-        } else if (!this.operator) {
-            return val;
-        } else {
-            throw new DiceModificationError
+        switch(this.operator) {
+            case '+': return val + this.modifier; break
+            case '-': return val - this.modifier; break
+            default: throw new DiceModificationError
         }
     }
     add_up() {
