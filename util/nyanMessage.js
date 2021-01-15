@@ -18,8 +18,15 @@ const diceResult = (message, item, total, dice) => {
         .setColor('#FFBE26')
         .setTitle(`ROLLS ${item}`)
         .setDescription(`**:game_die:  ${dice.rolls}**`)
-    if (dice.modifier !== false) { nyanEmbed.addField(`Modifier`, `${dice.operator}${dice.modifier}`) }
-    if (dice.count > 1 || dice.modifier !== false) { nyanEmbed.addField(`Total`, total) }
+    if (dice.modifier !== false) {
+        nyanEmbed.addField(`Modifier`, `${dice.operator}${dice.modifier}`)
+    }
+    if (dice.stuntDie) {
+        nyanEmbed.addField(`Stunt Die`, dice.rolls[2])
+    }
+    if (dice.count > 1 || dice.modifier !== false) {
+        nyanEmbed.addField(`Total`, total)
+    }
     return message.channel.send(nyanEmbed)
 }
 

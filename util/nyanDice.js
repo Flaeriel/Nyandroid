@@ -1,8 +1,8 @@
 const { DiceSizeError, DiceCountError, DiceModificationError, PatternMatchError } = require('./nyanError')
 const dicePattern = {
     expr: [
-        {"name": "dice", "pattern": /^(\d+)[d](\d+)$/ },
-        {"name": "dice_mod", "pattern": /^(\d+)[d](\d+)(\W)(\d+)$/},
+        {"name": "dice", "pattern": /^(\d+)[d](\d+)$/i },
+        {"name": "dice_mod", "pattern": /^(\d+)[d](\d+)(\W)(\d+)$/i },
     ]
 }
 const EXPR = dicePattern.expr
@@ -43,11 +43,7 @@ class DiceClass {
         }
     }
     add_up() {
-        let total = 0;
-        for (let die of this.rolls) {
-            total += die
-        }
-        return total
+        return this.rolls.reduce((total, die) => {return total + die}, 0)
     }
 }
 // MODIFY
@@ -65,11 +61,19 @@ class DiceModClass extends DiceClass {
         }
     }
     add_up() {
-        let total = 0
-        for (let die of this.rolls) {
-            total += die
-        }
-        return this.modify(total)
+        return this.modify(this.rolls.reduce((total, die) => {return total + die}, 0))
+    }
+}
+class DiceClassAGE extends DiceClass {
+    constructor() {
+        super(3, 6)
+        this.stuntDie = true
+    }
+}
+class DiceModClassAGE extends DiceModClass {
+    constructor(operator, modifier) {
+        super(3, 6, operator, modifier)
+        this.stuntDie = true
     }
 }
 
@@ -77,5 +81,7 @@ module.exports = {
     diceMatch,
     diceSplit,
     DiceClass,
-    DiceModClass
+    DiceModClass,
+    DiceClassAGE,
+    DiceModClassAGE
 }
