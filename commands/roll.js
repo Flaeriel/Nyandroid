@@ -5,6 +5,7 @@ const DiceClassAGE = nyanDice.DiceClassAGE
 const DiceModClassAGE = nyanDice.DiceModClassAGE
 const diceMatch = nyanDice.diceMatch
 const diceSplit = nyanDice.diceSplit
+const diceDupl = nyanDice.diceDupl
 const diceResult = nyanMessage.diceResult
 const logger = nyanLogger.logger
 
@@ -24,13 +25,14 @@ let diceRoll = (message, item) => {
 let diceRollAGE = (message, item) => {
     let dice, mod, opr, val, total
     mod = item.slice(3)
-    opr = mod.slice(0,1).trim()
+    opr = mod.slice(0,1)
     if (!opr) dice = new DiceClassAGE
     else {
         val = new Number(mod.slice(1))
         dice = new DiceModClassAGE(opr, mod)
     }
     total = dice.add_up(dice.roll())
+    dice.stunt = diceDupl(dice.rolls)
     logger.log('info', `${item}: [${dice.rolls}] -> ${total}`)
     return diceResult(message, item, total, dice)
 }

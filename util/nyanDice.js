@@ -10,13 +10,22 @@ const EXPR = dicePattern.expr
 // PATTERN HANDLER
 // DICE MATCH
 let diceMatch = str => {
-    let expr = EXPR.find(EXPR => EXPR.pattern.test(str));
-    if (expr) return expr;
+    let expr = EXPR.find(EXPR => EXPR.pattern.test(str))
+    if (expr) return expr
     else throw new PatternMatchError
 }
 // DICE SPLIT
 let diceSplit = (str, regex) => str.split(regex)
 
+// DUPLICATE DICE CHECKER
+let diceDupl = dice => {
+    for (let i = 1; i < dice.length; i++) {
+        for (let j = 0; j < i; j++) {
+            if(dice[i] === dice[j]) return true
+        }
+    }
+    return false
+}
 
 // DICE CLASSES
 // BASIC
@@ -68,18 +77,21 @@ class DiceClassAGE extends DiceClass {
     constructor() {
         super(3, 6)
         this.stuntDie = true
+        this.stunt = false
     }
 }
 class DiceModClassAGE extends DiceModClass {
     constructor(operator, modifier) {
         super(3, 6, operator, modifier)
         this.stuntDie = true
+        this.stunt = false
     }
 }
 
 module.exports = {
     diceMatch,
     diceSplit,
+    diceDupl,
     DiceClass,
     DiceModClass,
     DiceClassAGE,

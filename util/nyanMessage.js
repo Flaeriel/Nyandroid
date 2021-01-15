@@ -17,12 +17,14 @@ const diceResult = (message, item, total, dice) => {
     const nyanEmbed = new Discord.MessageEmbed()
         .setColor('#FFBE26')
         .setTitle(`ROLLS ${item}`)
-        .setDescription(`**:game_die:  ${dice.rolls}**`)
+        .setDescription(`**:game_die:  ${dice.rolls.join(' ')}**`)
     if (dice.modifier !== false) {
         nyanEmbed.addField(`Modifier`, `${dice.operator}${dice.modifier}`)
     }
     if (dice.stuntDie) {
-        nyanEmbed.addField(`Stunt Die`, dice.rolls[2])
+        let stunt = ''
+        if (dice.stunt === true) stunt = '*- stunt!*'
+        nyanEmbed.addField(`Stunt Die`, `${dice.rolls[2]} ${stunt}`)
     }
     if (dice.count > 1 || dice.modifier !== false) {
         nyanEmbed.addField(`Total`, total)
