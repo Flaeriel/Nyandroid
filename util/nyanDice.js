@@ -2,7 +2,7 @@ const { randomInt } = require('crypto')
 
 class DiceObject {
     constructor (count, size, opr = null, mod = null) {
-        this.count = count > 0 && count < 100 ? +count : null
+        this.count = count > 0 && count < 500 ? +count : null
         this.size = size > 0 ? +size : null
         this.opr = opr && opr.match(/[+-]/) ? opr : null
         this.mod = mod && mod > 0 ? +mod : null

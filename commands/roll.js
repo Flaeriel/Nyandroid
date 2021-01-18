@@ -17,7 +17,7 @@ module.exports = {
             let dmatch = diceMatch(item, dicePattern)
             // invalid input handling
             if(!dmatch) throw new PatternMatchError
-            if(dmatch[1] <= 0) throw new DiceCountError
+            if(dmatch[1] <= 0 || dmatch[1] > 500) throw new DiceCountError
             if(dmatch[2] <= 0) throw new DiceSizeError
 
             // rolling dice
