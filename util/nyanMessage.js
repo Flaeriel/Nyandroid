@@ -12,6 +12,8 @@ const respond = (message, type) => {
             return message.channel.send(replyM.purr)
         case 'sleep':
             return message.channel.send(replyM.sleep.replace("AUTHOR", message.author))
+        case 'help':
+            return message.channel.send(replyM.help)
     }
 }
 
