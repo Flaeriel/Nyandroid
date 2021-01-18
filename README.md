@@ -7,4 +7,4 @@ It requires the discord.js module to function
 
 ## Config Requirements
 It also requires a config.json file in the main folder to setup a command prefix and your discord bot token
-`{ "prefix": "!", "token": "Put Your Token Here" }`
+`{ "prefix": "~", "token": "Put Your Token Here" }`
