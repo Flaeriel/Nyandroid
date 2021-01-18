@@ -6,13 +6,13 @@ class BaseNyandroidError extends Error {
 
 class NotImplementedError extends BaseNyandroidError {}
 class PatternMatchError extends BaseNyandroidError {}
-class DiceModificationError extends BaseNyandroidError {}
+class DiceModError extends BaseNyandroidError {}
 class DiceSizeError extends BaseNyandroidError {}
 class DiceCountError extends BaseNyandroidError {}
 
 module.exports = {
     PatternMatchError,
-    DiceModificationError,
+    //DiceModError,
     DiceSizeError,
     DiceCountError
 };

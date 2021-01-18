@@ -1,99 +1,83 @@
-const { DiceSizeError, DiceCountError, DiceModificationError, PatternMatchError } = require('./nyanError')
-const dicePattern = {
-    expr: [
-        {"name": "dice", "pattern": /^(\d+)[d](\d+)$/i },
-        {"name": "dice_mod", "pattern": /^(\d+)[d](\d+)(\W)(\d+)$/i },
-    ]
-}
-const EXPR = dicePattern.expr
+const { randomInt } = require('crypto')
 
-// PATTERN HANDLER
-// DICE MATCH
-let diceMatch = str => {
-    let expr = EXPR.find(EXPR => EXPR.pattern.test(str))
-    if (expr) return expr
-    else throw new PatternMatchError
-}
-// DICE SPLIT
-let diceSplit = (str, regex) => str.split(regex)
-
-// DUPLICATE DICE CHECKER
-let diceDupl = dice => {
-    for (let i = 1; i < dice.length; i++) {
-        for (let j = 0; j < i; j++) {
-            if(dice[i] === dice[j]) return true
+class DiceObject {
+    constructor (count, size, opr = null, mod = null) {
+        this.count = count > 0 && count < 100 ? +count : null
+        this.size = size > 0 ? +size : null
+        this.opr = opr && opr.match(/[+-]/) ? opr : null
+        this.mod = mod && mod > 0 ? +mod : null
+    }
+    rollDice () {
+        let rolls = []
+        // get random numbers
+        for (let i = 0; i < this.count; i++) {
+            let rand = randomInt(this.size)+1
+            rolls.push(rand)
         }
+        // add up random numbers
+        let total = rolls.reduce((res, die) => {
+            return res + die
+        }, 0)
+        // modify total
+        if (this.opr) {
+            total += this.opr == '+' ? this.mod : -this.mod
+        }
+        // return result
+        return { rolls, total }
     }
-    return false
+    get roll() { return this.rollDice() }
 }
 
-// DICE CLASSES
-// BASIC
-class DiceClass {
-    constructor(count, size) {
-        this.count = new Number(count)
-        this.size = new Number(size)
-        this.modifier = false
-        this.rolls = []
+class DiceObjectAGE extends DiceObject {
+    constructor (opr, mod) {
+        super(3, 6, opr, mod)
+        this.stuntDie = true
     }
-    rand() {
-        if (this.size > 0) return Math.floor(Math.random() * this.size + 1)
-        else throw new DiceSizeError
-    }
-    roll() {
-        if (this.count > 0 && this.count <= 50) {
-            for (let i = 0; i < this.count; i++) {
-                let rnd = this.rand()
-                this.rolls.push(rnd)
+    rollAGE() {
+        // roll dice
+        let { rolls, total } = this.rollDice()
+        let stunt = false
+        // check for duplicates === stunt
+        for (let i = 1; i < this.count; i++) {
+            for (let j = 0; j < i; j++) {
+                if(rolls[i] === rolls[j]) stunt = true
             }
-            return this.rolls
-        } else if (this.count > 50 || this.count <= 0) {
-            throw new DiceCountError
+        }
+        // return result
+        return { rolls, total, stunt }
+    }
+    get roll() { return this.rollAGE() }
+}
+
+let diceMatch = (str, patternList) => {
+    for(const item of patternList) {
+        let expr = new RegExp(item.pattern, 'i')
+        let match = str.match(expr)
+        if(match) {
+            match[0] = item.name
+            return match
         }
     }
-    add_up() {
-        return this.rolls.reduce((total, die) => {return total + die}, 0)
-    }
+    return null
 }
-// MODIFY
-class DiceModClass extends DiceClass {
-    constructor(count, size, operator, modifier) {
-        super(count, size)
-        this.operator = operator
-        this.modifier = new Number(modifier)
-    }
-    modify(val) {
-        switch(this.operator) {
-            case '+': return val + this.modifier; break
-            case '-': return val - this.modifier; break
-            default: throw new DiceModificationError
+
+function dicePick(match) {
+    if(match) {
+        switch(match[0]) {
+            case 'dice_mod':
+                return new DiceObject(match[1], match[2], match[3], match[4])
+            case 'dice':
+                return new DiceObject(match[1], match[2])
+            case 'age':
+                return new DiceObjectAGE(match[1],match[2])
         }
     }
-    add_up() {
-        return this.modify(this.rolls.reduce((total, die) => {return total + die}, 0))
-    }
-}
-class DiceClassAGE extends DiceClass {
-    constructor() {
-        super(3, 6)
-        this.stuntDie = true
-        this.stunt = false
-    }
-}
-class DiceModClassAGE extends DiceModClass {
-    constructor(operator, modifier) {
-        super(3, 6, operator, modifier)
-        this.stuntDie = true
-        this.stunt = false
-    }
+    return null
 }
 
 module.exports = {
+    //DiceObject,
+    //DiceObjectAGE,
     diceMatch,
-    diceSplit,
-    diceDupl,
-    DiceClass,
-    DiceModClass,
-    DiceClassAGE,
-    DiceModClassAGE
+    dicePick
 }

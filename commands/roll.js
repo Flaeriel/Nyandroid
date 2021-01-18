@@ -1,41 +1,10 @@
-const { nyanDice, nyanMessage, nyanLogger } = require('../util')
-const DiceClass = nyanDice.DiceClass
-const DiceModClass = nyanDice.DiceModClass
-const DiceClassAGE = nyanDice.DiceClassAGE
-const DiceModClassAGE = nyanDice.DiceModClassAGE
+const { nyanDice, nyanMessage, nyanError, dicePattern } = require('../util')
 const diceMatch = nyanDice.diceMatch
-const diceSplit = nyanDice.diceSplit
-const diceDupl = nyanDice.diceDupl
+const dicePick = nyanDice.dicePick
 const diceResult = nyanMessage.diceResult
-const logger = nyanLogger.logger
-
-let diceRoll = (message, item) => {
-    let call, splits, dice, total
-    call = diceMatch(item)
-    splits = diceSplit(item, call.pattern)
-
-    if (call.name === 'dice_mod') dice = new DiceModClass(splits[1], splits[2], splits[3], splits[4])
-    else if (call.name === 'dice') dice = new DiceClass(splits[1], splits[2])
-
-    total = dice.add_up(dice.roll())
-    logger.log('info', `${item}: [${dice.rolls}] -> ${total}`)
-    return diceResult(message, item, total, dice)
-}
-
-let diceRollAGE = (message, item) => {
-    let dice, mod, opr, val, total
-    mod = item.slice(3)
-    opr = mod.slice(0,1)
-    if (!opr) dice = new DiceClassAGE
-    else {
-        val = new Number(mod.slice(1))
-        dice = new DiceModClassAGE(opr, mod)
-    }
-    total = dice.add_up(dice.roll())
-    dice.stunt = diceDupl(dice.rolls)
-    logger.log('info', `${item}: [${dice.rolls}] -> ${total}`)
-    return diceResult(message, item, total, dice)
-}
+const PatternMatchError = nyanError.PatternMatchError
+const DiceCountError = nyanError.DiceCountError
+const DiceSizeError = nyanError.DiceSizeError
 
 module.exports = {
     name: 'roll',
@@ -43,14 +12,21 @@ module.exports = {
     description: 'rolling dice',
     args: true,
     execute (message, args) {
-        let collect = []
         args.forEach((item) => {
-            if(item.match(/age(\W\d+)?/i)) {
-                collect.push(diceRollAGE(message, item))
-            } else {
-                collect.push(diceRoll(message, item))
-            }
+
+            let dmatch = diceMatch(item, dicePattern)
+            // invalid input handling
+            if(!dmatch) throw new PatternMatchError
+            if(dmatch[1] <= 0) throw new DiceCountError
+            if(dmatch[2] <= 0) throw new DiceSizeError
+
+            // rolling dice
+            let dice = dicePick(dmatch)
+            let droll = dice.roll
+            diceResult(message, item, dice, droll)
+
+            //console.log(dice)
+            //console.log(droll)
         })
-        return collect
     },
 };

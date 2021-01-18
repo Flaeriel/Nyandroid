@@ -1,54 +1,56 @@
 const Discord = require('discord.js')
 
+const replyM = require('./replyMessages.json')
+const errorM = require('./errorMessages.json')
 const NYA = ", nya!"
 
 const respond = (message, type) => {
     switch (type) {
         case 'hello':
-            message.channel.send(`Hello ${message.author}`+NYA); break
+            return message.channel.send(replyM.hello.replace("AUTHOR", message.author)+NYA)
         case 'purr':
-            message.channel.send(`Purr!`); break
+            return message.channel.send(replyM.purr)
         case 'sleep':
-            message.channel.send(`Sleep well ${message.author}, nyawwn...`); break
+            return message.channel.send(replyM.sleep.replace("AUTHOR", message.author))
     }
 }
 
-const diceResult = (message, item, total, dice) => {
+const diceResult = (message, item, dice, droll) => {
     const nyanEmbed = new Discord.MessageEmbed()
         .setColor('#FFBE26')
         .setTitle(`ROLLS ${item}`)
-        .setDescription(`**:game_die:  ${dice.rolls.join(' ')}**`)
-    if (dice.modifier !== false) {
-        nyanEmbed.addField(`Modifier`, `${dice.operator}${dice.modifier}`)
+        .setDescription(`**:game_die:  ${droll.rolls.join(' ')}**`)
+    if (dice.mod !== null) {
+        nyanEmbed.addField(`Modifier`, `${dice.opr}${dice.mod}`)
     }
     if (dice.stuntDie) {
         let stunt = ''
-        if (dice.stunt === true) stunt = '*- stunt!*'
-        nyanEmbed.addField(`Stunt Die`, `${dice.rolls[2]} ${stunt}`)
+        if (droll.stunt === true) stunt = '*- stunt!*'
+        nyanEmbed.addField(`Stunt Die`, `${droll.rolls[2]} ${stunt}`)
     }
-    if (dice.count > 1 || dice.modifier !== false) {
-        nyanEmbed.addField(`Total`, total)
+    if (dice.count > 1 || dice.mod !== null) {
+        nyanEmbed.addField(`Total`, droll.total)
     }
     return message.channel.send(nyanEmbed)
 }
 
-const errMessage = (err) => {
+const errMessage = err => {
     // no break needed because of return
     switch(err) {
         case 'UnknownCommand':
-            return "Idk what you mean"+NYA
+            return errorM.UnknownCommand+NYA
         case 'NoArguments':
-            return "You didn't provide any arguments"+NYA
+            return errorM.NoArguments+NYA
         case 'PatternMatchError':
-            return "couldn't find a matching pattern"+NYA
-        case 'DiceModificationError':
-            return "this is not a valid dice modifier"+NYA
+            return errorM.PatternMatchError+NYA
+        case 'DiceModError':
+            return errorM.DiceModError+NYA
         case 'DiceSizeError':
-            return "dice like this do not exist"+NYA
+            return errorM.DiceSizeError+NYA
         case 'DiceCountError':
-            return "I'm not going to roll that many dice"+NYA
+            return errorM.DiceCountError+NYA
         default:
-            return "Something went wrong"+NYA
+            return errorM.DefaultError+NYA
     }
 }
 

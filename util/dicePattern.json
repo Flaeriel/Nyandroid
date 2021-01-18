@@ -1,0 +1,5 @@
+[
+    {"name": "dice", "pattern": "^(\\d+)[d](\\d+)$"},
+    {"name": "dice_mod", "pattern": "^(\\d+)[d](\\d+)([+-])(\\d+)$"},
+    {"name": "age", "pattern": "age([+-])?(\\d+)?$"}
+]
