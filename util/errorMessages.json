@@ -1,7 +1,7 @@
 {
     "UnknownCommand":           "Idk what you mean",
     "NoArguments":              "You didn't provide any arguments",
-    "PatternMatchError":        "couldn't find a matching pattern",
+    "PatternMatchError":        "couldn't find a matching dice roll pattern",
     "DiceModError":             "this is not a valid dice modifier",
     "DiceSizeError":            "dice like this do not exist",
     "DiceCountError":           "I'm not going to roll that many dice",

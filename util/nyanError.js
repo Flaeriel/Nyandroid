@@ -11,8 +11,9 @@ class DiceSizeError extends BaseNyandroidError {}
 class DiceCountError extends BaseNyandroidError {}
 
 module.exports = {
-    PatternMatchError,
+    //NotImplementedError
+    //PatternMatchError,
     //DiceModError,
-    DiceSizeError,
-    DiceCountError
+    //DiceSizeError,
+    //DiceCountError
 };
