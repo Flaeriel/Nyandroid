@@ -26,8 +26,7 @@ const diceResult = (message, item, dice, droll) => {
         nyanEmbed.addField(`Modifier`, `${dice.opr}${dice.mod}`)
     }
     if (dice.stuntDie) {
-        let stunt = ''
-        if (droll.stunt === true) stunt = '*- stunt!*'
+        let stunt = droll.stunt === true ? '*- stunt!*' : ''
         nyanEmbed.addField(`Stunt Die`, `${droll.rolls[2]} ${stunt}`)
     }
     if (dice.count > 1 || dice.mod !== null) {
