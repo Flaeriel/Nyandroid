@@ -1,3 +1,7 @@
+/**
+ *  Nyandroid is a Node.js Discord-Bot for rolling dice
+ */
+
 // fs is Node's native file system
 const fs = require('fs')
 
