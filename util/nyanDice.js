@@ -49,7 +49,7 @@ class DiceObjectAGE extends DiceObject {
     get roll() { return this.rollAGE() }
 }
 
-let diceMatch = (str, patternList) => {
+let diceMatch = async (str, patternList) => {
     for(const item of patternList) {
         let expr = new RegExp(item.pattern, 'i')
         let match = str.match(expr)
@@ -61,7 +61,7 @@ let diceMatch = (str, patternList) => {
     return null
 }
 
-function dicePick(match) {
+let dicePick = async match => {
     if(match) {
         switch(match[0]) {
             case 'dice_mod':

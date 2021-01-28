@@ -17,7 +17,7 @@ const respond = (message, type) => {
     }
 }
 
-const diceResult = (message, item, dice, droll) => {
+const diceResult = async (message, item, dice, droll) => {
     const nyanEmbed = new Discord.MessageEmbed()
         .setColor('#FFBE26')
         .setTitle(`ROLLS ${item}`)
@@ -32,7 +32,7 @@ const diceResult = (message, item, dice, droll) => {
     if (dice.count > 1 || dice.mod !== null) {
         nyanEmbed.addField(`Total`, droll.total)
     }
-    return message.channel.send(nyanEmbed)
+    return await message.channel.send(nyanEmbed)
 }
 
 const errMessage = err => {

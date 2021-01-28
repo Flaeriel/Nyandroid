@@ -17,8 +17,8 @@ let diceRoll = async (message, item) => {
     } else {
         // rolling dice
         let dice = await dicePick(dmatch)
-        let droll = await dice.roll
-        diceResult(message, item, dice, droll)
+        let droll = dice.roll
+        return await diceResult(message, item, dice, droll)
     }
 }
 
