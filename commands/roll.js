@@ -9,11 +9,11 @@ let diceRoll = async (message, item) => {
     let dmatch = await diceMatch(item, dicePattern)
     // invalid input handling
     if(!dmatch) {
-        message.reply(errMessage('PatternMatchError'))
+        await message.reply(errMessage('PatternMatchError'))
     } else if(dmatch[1] <= 0 || dmatch[1] > 500) {
-        message.reply(errMessage('DiceCountError'))
+        await message.reply(errMessage('DiceCountError'))
     } else if(dmatch[2] <= 0) {
-        message.reply(errMessage('DiceSizeError'))
+        await message.reply(errMessage('DiceSizeError'))
     } else {
         // rolling dice
         let dice = await dicePick(dmatch)
